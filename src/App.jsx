@@ -16,8 +16,7 @@ export default function App() {
         <Sidebar />
         <main>
 
-          <Post author="Michael Matheus" content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel incidunt, perspiciatis error rem voluptatem commodi ad amet accusamus doloremque. Perspiciatis exercitationem ipsa culpa doloribus blanditiis vel ut eligendi cum accusamus?" />
-          <Post author="Bianca Marques" content="Um post muito legal!" />
+          <Post />
 
         </main>
       </div>
