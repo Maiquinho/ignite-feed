@@ -4,7 +4,13 @@ import styles from './Comment.module.css';
 import { useState } from 'react';
 
 
-export function Comment({ content, onDeleteComment }) {
+interface CommentProps {
+    content: string;
+    onDeleteComment: (comment: string) => void;
+}
+
+
+export function Comment({ content, onDeleteComment }: CommentProps) {
 
     const [likeCount, setLikeCount] = useState(0);
 
@@ -16,15 +22,11 @@ export function Comment({ content, onDeleteComment }) {
         setLikeCount((state) => {
             return state + 1
         });
-
-        const newLikeCountValue = likeCount + 1;
-
-        console.log(newLikeCountValue)
     }
 
     return (
         <div className={styles.comment}>
-            <Avatar hasBorder={false} src="https://github.com/Maiquinho.png" />
+            <Avatar hasBorder={false} src="https://github.com/Maiquinho.png" alt="avatar" />
 
             <div className={styles.commentBox}>
                 <div className={styles.commentContent}>

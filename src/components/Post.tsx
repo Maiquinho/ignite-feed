@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
 import { format, formatDistanceToNow } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
@@ -7,7 +7,25 @@ import { Comment } from './Comment';
 import styles from './Post.module.css';
 
 
-export function Post({ author, content, publishedAt }) {
+interface Author {
+    name: string;
+    role: string;
+    avatarUrl: string;
+}
+
+interface Content {
+    type: 'paragraph' | 'link';
+    content: string;
+}
+
+interface PostProps {
+    author: Author;
+    publishedAt: Date;
+    content: Content[];
+}
+
+
+export function Post({ author, content, publishedAt }: PostProps) {
 
     const [comments, setComments] = useState([
         'Post muito bacana, hein?'
@@ -24,22 +42,22 @@ export function Post({ author, content, publishedAt }) {
         addSuffix: true
     })
 
-    function handleCreateNewComment(){
+    function handleCreateNewComment(event: FormEvent){
         event.preventDefault();
         setComments([...comments, newCommentText]);
         setNewCommentText('');
     }
 
-    function handleNewCommentInvalid(){
+    function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>){
         event.target.setCustomValidity('Esse campo é obrigatório!');
     }
 
-    function handleNewCommentText(){
+    function handleNewCommentText(event: ChangeEvent<HTMLTextAreaElement>){
         event.target.setCustomValidity('');
         setNewCommentText(event.target.value);
     }
 
-    function deleteComment(commentToDelete){
+    function deleteComment(commentToDelete: string){
         const commentsWithoutDeletedOne = comments.filter(comment => {
             return comment !== commentToDelete;
         })
@@ -54,7 +72,7 @@ export function Post({ author, content, publishedAt }) {
         <article className={styles.post}>
             <header>
                 <div className={styles.author}>
-                    <Avatar src={author.avatarUrl} />
+                    <Avatar src={author.avatarUrl} alt="" />
                     <div className={styles.authorInfo}>
                         <strong>{author.name}</strong>
                         <span>{author.role}</span>
