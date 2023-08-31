@@ -18,14 +18,19 @@ interface Content {
     content: string;
 }
 
-interface PostProps {
+export interface PostType {
+    id: number;
     author: Author;
     publishedAt: Date;
     content: Content[];
 }
 
+interface PostProps {
+    post: PostType
+};
 
-export function Post({ author, content, publishedAt }: PostProps) {
+
+export function Post({ post }: PostProps) {
 
     const [comments, setComments] = useState([
         'Post muito bacana, hein?'
@@ -33,11 +38,11 @@ export function Post({ author, content, publishedAt }: PostProps) {
 
     const [newCommentText, setNewCommentText] = useState('')
 
-    const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+    const publishedDateFormatted = format(post.publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
         locale: ptBR
     })
 
-    const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    const publishedDateRelativeToNow = formatDistanceToNow(post.publishedAt, {
         locale: ptBR,
         addSuffix: true
     })
@@ -72,18 +77,18 @@ export function Post({ author, content, publishedAt }: PostProps) {
         <article className={styles.post}>
             <header>
                 <div className={styles.author}>
-                    <Avatar src={author.avatarUrl} alt="" />
+                    <Avatar src={post.author.avatarUrl} alt="" />
                     <div className={styles.authorInfo}>
-                        <strong>{author.name}</strong>
-                        <span>{author.role}</span>
+                        <strong>{post.author.name}</strong>
+                        <span>{post.author.role}</span>
                     </div>
                 </div>
 
-                <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>{publishedDateRelativeToNow}</time>
+                <time title={publishedDateFormatted} dateTime={post.publishedAt.toISOString()}>{publishedDateRelativeToNow}</time>
             </header>
 
             <div className={styles.content}>
-                {content.map(content => {
+                {post.content.map(content => {
                     switch(content.type){
                         case "paragraph":
                             return <p key={content.content}>{content.content}</p>
